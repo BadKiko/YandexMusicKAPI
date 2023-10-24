@@ -7,12 +7,16 @@ import okhttp3.Request
 import okhttp3.Response
 import java.io.IOException
 
-class TokenInterceptor(private val yandexClient: YandexClient) :
+class YandexUrlInterceptor(private val yandexClient: YandexClient) :
     Interceptor {
     @Throws(IOException::class)
     override fun intercept(chain: Chain): Response {
-        val newRequest: Request = chain.request().newBuilder()
-            .header("Authorization", "OAuth ${yandexClient.token}")
+        val originalRequest = chain.request()
+
+        val newBaseUrl = yandexClient.baseUrl
+
+        val newRequest = originalRequest.newBuilder()
+            .url(newBaseUrl + originalRequest.url.pathSegments)
             .build()
 
         return chain.proceed(newRequest)

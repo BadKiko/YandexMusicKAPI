@@ -1,39 +1,47 @@
 package com.kiko.yandexmusicapi.di
 
-import com.kiko.psychoarticles.di.intercepter.TokenInterceptor
+import com.kiko.yandexmusicapi.YandexClient
+import com.kiko.yandexmusicapi.data.remote.TokenInterceptor
+import com.kiko.yandexmusicapi.constants.YandexMusicConstants
+import com.kiko.yandexmusicapi.data.remote.YandexUrlInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import com.squareup.okhttp3.logging.HttpLoggingInterceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
+import retrofit2.converter.moshi.MoshiConverterFactory
+import javax.inject.Inject
 
 @Module
 @InstallIn(SingletonComponent::class)
-object RetrofitModule {
+class RetrofitModule {
 
     @Provides
-    fun provideHttpClient(): OkHttpClient {
+    fun provideMoshi(): MoshiConverterFactory {
+        return MoshiConverterFactory.create()
+    }
+
+    @Provides
+    fun provideHttpClient(
+        yandexClient: YandexClient
+    ): OkHttpClient {
         return OkHttpClient.Builder()
-            .addInterceptor(TokenInterceptor())
+            .addInterceptor(TokenInterceptor(yandexClient))
+            .addInterceptor(YandexUrlInterceptor(yandexClient))
             .build()
     }
 
     @Provides
+    @Inject
     fun provideRetrofit(
         okHttpClient: OkHttpClient,
-        gsonConverterFactory: MoshiCo,
+        moshiConverterFactory: MoshiConverterFactory,
     ): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("https://example.com")
+            .baseUrl(YandexMusicConstants.baseUrl)
             .client(okHttpClient)
-            .addConverterFactory(gsonConverterFactory)
+            .addConverterFactory(moshiConverterFactory)
             .build()
-    }
-
-    @Provides
-    fun provideApiService(retrofit: Retrofit): ApiService {
-        return retrofit.create(ApiService::class.java)
     }
 }

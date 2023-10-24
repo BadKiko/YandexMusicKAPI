@@ -1,6 +1,7 @@
 package com.kiko.yandexmusicapi
 
 import com.kiko.yandexmusicapi.constants.YandexMusicConstants
+import com.kiko.yandexmusicapi.di.RetrofitModule
 
 /**
  * Основной класс библиотеки, представляет клиент Yandex Music
@@ -14,7 +15,9 @@ class YandexClient(
 ) {
     companion object {
         fun create(token: String, baseUrl: String = YandexMusicConstants.baseUrl): YandexClient {
-            return YandexClient(token, baseUrl)
+            val yandexClient = YandexClient(token, baseUrl)/*
+            RetrofitModule().provideHttpClient(yandexClient = yandexClient)*/
+            return yandexClient
         }
     }
 
