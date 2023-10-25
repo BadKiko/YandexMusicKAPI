@@ -2,13 +2,18 @@
 plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinAndroid)
+    id("maven-publish")
     id("com.google.devtools.ksp") version "1.9.10-1.0.13"
 }
 
 android {
     namespace = "com.kiko.yandexmusicapi"
     compileSdk = 34
-
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+        }
+    }
     defaultConfig {
         minSdk = 24
 
@@ -55,4 +60,18 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
+}
+
+
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            groupId = "com.kiko.yandexmusickotlinapi"
+            artifactId = "yandexmusickotlinapi"
+            version = "0.0.1_inwork"
+            afterEvaluate {
+                from(components["release"])
+            }
+        }
+    }
 }
