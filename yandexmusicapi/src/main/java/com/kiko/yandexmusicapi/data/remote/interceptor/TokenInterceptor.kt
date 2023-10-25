@@ -7,6 +7,10 @@ import okhttp3.Request
 import okhttp3.Response
 import java.io.IOException
 
+
+/**
+ * Интерцептор который вставляет токен в любой запрос
+ */
 class TokenInterceptor(private val yandexClient: YandexClient) :
     Interceptor {
     @Throws(IOException::class)

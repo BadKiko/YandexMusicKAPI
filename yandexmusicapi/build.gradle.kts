@@ -35,9 +35,10 @@ android {
 }
 
 dependencies {
-
     // request wrapper
     implementation(libs.skydoves.sandwich)
+    implementation(libs.sealedx.core)
+    ksp(libs.sealedx.processor)
 
     // requesting
     implementation(libs.retrofit)

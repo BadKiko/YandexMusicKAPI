@@ -2,9 +2,11 @@ package com.kiko.yandexmusicapi
 
 import com.kiko.yandexmusicapi.constants.YandexMusicConstants
 import com.kiko.yandexmusicapi.data.account.module.AccountModule
+import com.kiko.yandexmusicapi.data.common.StatusEntityYandexState
 import com.kiko.yandexmusicapi.di.RetrofitModule
 import com.kiko.yandexmusicapi.domain.account.usecase.AccountUseCase
-import kotlinx.coroutines.flow.collectLatest
+import com.skydoves.sandwich.ApiResponse
+import com.skydoves.sandwich.message
 import retrofit2.Retrofit
 
 /**
@@ -28,11 +30,13 @@ class YandexClient(
         }
     }
 
-    suspend fun getAccountStatus() {
+    suspend fun getAccountStatus(): StatusEntityYandexState {
         val accountRepository =
             AccountModule.provideAccountRepository(AccountModule.provideAccountApi(retrofit))
-        AccountUseCase(accountRepository).getStatus().collectLatest {
-            it
+
+        return when (val result = AccountUseCase(accountRepository).getStatus()) {
+            is ApiResponse.Failure -> StatusEntityYandexState.Error(result.message())
+            is ApiResponse.Success -> StatusEntityYandexState.Success(result.data.result)
         }
     }
 }

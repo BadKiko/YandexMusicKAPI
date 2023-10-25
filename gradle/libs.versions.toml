@@ -15,6 +15,7 @@ okhttp = "5.0.0-alpha.11"
 retrofit = "2.9.0"
 appcompat = "1.6.1"
 material = "1.9.0"
+sealedx-core = "1.0.2"
 
 [libraries]
 converter-moshi = { module = "com.squareup.retrofit2:converter-moshi", version.ref = "retrofit" }
@@ -31,6 +32,8 @@ moshi = { module = "com.squareup.moshi:moshi", version.ref = "moshi" }
 moshi-kotlin-codegen = { module = "com.squareup.moshi:moshi-kotlin-codegen", version.ref = "moshi" }
 okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+sealedx-core = { module = "com.github.skydoves:sealedx-core", version.ref = "sealedx-core" }
+sealedx-processor = { module = "com.github.skydoves:sealedx-processor", version.ref = "sealedx-core" }
 skydoves-sandwich = { module = "com.github.skydoves:sandwich", version.ref = "github-sandwich" }
 ui = { group = "androidx.compose.ui", name = "ui" }
 ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }

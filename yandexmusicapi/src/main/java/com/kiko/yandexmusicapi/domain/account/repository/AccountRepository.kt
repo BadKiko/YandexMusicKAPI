@@ -6,5 +6,5 @@ import com.skydoves.sandwich.ApiResponse
 import kotlinx.coroutines.flow.Flow
 
 interface AccountRepository {
-    fun getAccountStatus(): Flow<ApiResponse<ResultWrapper<StatusEntity>>>
+    suspend fun getAccountStatus(): ApiResponse<ResultWrapper<StatusEntity>>
 }

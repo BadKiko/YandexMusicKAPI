@@ -12,13 +12,11 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
 class AccountRepositoryImpl (private val accountApi: AccountApi) : AccountRepository {
-    override fun getAccountStatus(): Flow<ApiResponse<ResultWrapper<StatusEntity>>> {
-        return flow {
-            emit(suspendCoroutine { continuation ->
-                accountApi.getAccountState().request {
-                    continuation.resume(it)
-                }
-            })
+    override suspend fun getAccountStatus(): ApiResponse<ResultWrapper<StatusEntity>> {
+        return suspendCoroutine { continuation ->
+            accountApi.getAccountState().request {
+                continuation.resume(it)
+            }
         }
     }
 }

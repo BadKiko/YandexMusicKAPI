@@ -6,6 +6,9 @@ import okhttp3.Interceptor.*
 import okhttp3.Response
 import java.io.IOException
 
+/**
+ * Интерцептор который вставляет меняет url адрес если под Yandex Client
+ */
 class YandexUrlInterceptor(private val yandexClient: YandexClient) :
     Interceptor {
     @Throws(IOException::class)
