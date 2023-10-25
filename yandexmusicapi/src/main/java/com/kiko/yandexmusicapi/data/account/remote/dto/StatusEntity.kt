@@ -34,16 +34,16 @@ data class StatusEntity(
     val advertisement: String? = null,
     val subscription: SubscriptionEntity? = null,
     val cacheLimit: Int? = null,
-    @Json(name = "subeditor") val subeditor: Boolean? = null,
-    @Json(name = "subeditor_level") val subeditorLevel: Int? = null,
+    val subeditor: Boolean? = null,
+    val subeditorLevel: Int? = null,
     val plus: PlusEntity? = null,
     val defaultEmail: String? = null,
     val skipsPerHour: Int? = null,
-    @Json(name = "station_exists") val stationExists: Boolean? = null,
+    val stationExists: Boolean? = null,
     val stationData: StationDataEntity? = null,
     val barBelow: AlertEntity? = null,
-    @Json(name = "premium_region") val premiumRegion: Int? = null,
+    val premiumRegion: Int? = null,
     val experiment: Int? = null,
-    @Json(name = "pretrial_active") val pretrialActive: Boolean? = null,
-    @Json(name = "user_hash") val userHash: String? = null
+    val pretrialActive: Boolean? = null,
+    val userHash: String? = null
 )

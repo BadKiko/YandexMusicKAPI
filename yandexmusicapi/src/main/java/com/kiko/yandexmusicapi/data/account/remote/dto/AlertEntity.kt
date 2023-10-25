@@ -24,11 +24,11 @@ import com.squareup.moshi.JsonClass
  */
 @JsonClass(generateAdapter = true)
 data class AlertEntity(
-    @Json(name = "alert_id") val alertId: String,
+    val alertId: String,
     val text: String,
-    @Json(name = "background_color") val backgroundColor: String,
-    @Json(name = "text_color") val textColor: String,
-    @Json(name = "alert_type") val alertType: String,
+    val backgroundColor: String,
+    val textColor: String,
+    val alertType: String,
     val button: AlertButtonEntity,
-    @Json(name = "close_button") val closeButton: Boolean
+    val closeButton: Boolean
 )

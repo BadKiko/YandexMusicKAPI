@@ -15,7 +15,7 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class AlertButtonEntity(
     val text: String,
-    @Json(name = "background_color") val backgroundColor: String,
-    @Json(name = "text_color")val textColor: String,
+    val backgroundColor: String,
+    val textColor: String,
     val uri: String
 )

@@ -17,9 +17,9 @@ import com.squareup.moshi.JsonClass
  */
 @JsonClass(generateAdapter = true)
 data class OperatorEntity(
-    @Json(name = "product_id") val productId: String,
+    val productId: String,
     val phone: String,
-    @Json(name = "payment_regularity") val paymentRegularity: String,
+    val paymentRegularity: String,
     val deactivation: List<DeactivationEntity>,
     val title: String,
     val suspended: Boolean

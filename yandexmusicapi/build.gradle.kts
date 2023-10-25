@@ -2,7 +2,6 @@
 plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinAndroid)
-
     id("com.google.devtools.ksp") version "1.9.10-1.0.13"
 }
 
@@ -48,10 +47,6 @@ dependencies {
     implementation(libs.moshi)
     ksp(libs.moshi.kotlin.codegen)
     implementation(libs.converter.moshi)
-
-    // dependency injection
-    implementation(libs.hilt.android)
-    ksp(libs.hilt.compiler)
 
     implementation(libs.core.ktx)
     implementation(libs.appcompat)

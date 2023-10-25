@@ -28,18 +28,18 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class AccountEntity(
     val now: String,
-    @Json(name = "service_available") val serviceAvailable: Boolean,
+    val serviceAvailable: Boolean,
     val region: Int? = null,
     val uid: Int? = null,
     val login: String? = null,
-    @Json(name = "full_name") val fullName: String? = null,
-    @Json(name = "second_name") val secondName: String? = null,
-    @Json(name = "first_name") val firstName: String? = null,
-    @Json(name = "display_name") val displayName: String? = null,
-    @Json(name = "hosted_user") val hostedUser: Boolean? = null,
+    val fullName: String? = null,
+    val secondName: String? = null,
+    val firstName: String? = null,
+    val displayName: String? = null,
+    val hostedUser: Boolean? = null,
     val birthday: String? = null,
-    @Json(name = "passport_phones") val passportPhones: List<PassportPhoneEntity>? = null,
-    @Json(name = "registered_at") val registeredAt: String? = null,
-    @Json(name = "has_info_for_app_metrica") val hasInfoForAppMetrica: Boolean? = null,
-    val child: Boolean
+    val passportPhones: List<PassportPhoneEntity>? = null,
+    val registeredAt: String? = null,
+    val child: Boolean,
+    val nonOwnerFamilyMember: Boolean
 )

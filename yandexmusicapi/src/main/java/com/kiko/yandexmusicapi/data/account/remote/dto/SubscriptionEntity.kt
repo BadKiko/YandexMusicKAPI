@@ -24,13 +24,13 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class SubscriptionEntity(
-    @Json(name = "non_auto_renewable_remainder") val nonAutoRenewableRemainder: RenewableRemainderEntity,
-    @Json(name = "auto_renewable") val autoRenewable: List<AutoRenewableEntity>,
-    @Json(name = "family_auto_renewable") val familyAutoRenewable: List<AutoRenewableEntity>,
-    @Json(name = "had_any_subscription") val hadAnySubscription: Boolean,
+    val nonAutoRenewableRemainder: RenewableRemainderEntity,
+    val autoRenewable: List<AutoRenewableEntity>,
+    val familyAutoRenewable: List<AutoRenewableEntity>? = null,
+    val hadAnySubscription: Boolean,
     val operator: List<OperatorEntity>? = null,
-    @Json(name = "non_auto_renewable") val nonAutoRenewable: NonAutoRenewableEntity? = null,
-    @Json(name = "can_start_trial") val canStartTrial: Boolean? = null,
-    @Json(name = "mcdonalds") val mcDonalds: Boolean? = null,
+    val nonAutoRenewable: NonAutoRenewableEntity? = null,
+    val canStartTrial: Boolean? = null,
+    val mcDonalds: Boolean? = null,
     val end: String? = null,
 )

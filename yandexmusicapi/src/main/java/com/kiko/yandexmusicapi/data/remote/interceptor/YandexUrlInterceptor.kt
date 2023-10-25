@@ -1,9 +1,8 @@
-package com.kiko.yandexmusicapi.data.remote
+package com.kiko.yandexmusicapi.data.remote.interceptor
 
 import com.kiko.yandexmusicapi.YandexClient
 import okhttp3.Interceptor
 import okhttp3.Interceptor.*
-import okhttp3.Request
 import okhttp3.Response
 import java.io.IOException
 
@@ -16,7 +15,7 @@ class YandexUrlInterceptor(private val yandexClient: YandexClient) :
         val newBaseUrl = yandexClient.baseUrl
 
         val newRequest = originalRequest.newBuilder()
-            .url(newBaseUrl + originalRequest.url.pathSegments)
+            .url("$newBaseUrl/${originalRequest.url.pathSegments.joinToString("/")}")
             .build()
 
         return chain.proceed(newRequest)

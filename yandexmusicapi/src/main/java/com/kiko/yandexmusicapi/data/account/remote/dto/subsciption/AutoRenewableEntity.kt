@@ -20,10 +20,10 @@ import com.squareup.moshi.JsonClass
 data class AutoRenewableEntity(
     val expires: String,
     val vendor: String,
-    @Json(name = "vendor_help_url") val vendorHelpUrl: String,
+    val vendorHelpUrl: String,
     val product: ProductEntity? = null,
     val finished: Boolean,
-    @Json(name = "master_info") val masterInfo: UserEntity? = null,
-    @Json(name = "product_id") val productId: String? = null,
-    @Json(name = "order_id") val orderId: Int? = null
+    val masterInfo: UserEntity? = null,
+    val productId: String? = null,
+    val orderId: Int? = null
 )

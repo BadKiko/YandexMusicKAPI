@@ -8,17 +8,28 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.kiko.yamusickotlinapi.ui.theme.YandexMusicKotlinAPITheme
 import com.kiko.yandexmusicapi.YandexClient
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             YandexMusicKotlinAPITheme {
-                YandexClient.create("***REMOVED***-sEk")
+                val yandexClient =
+                    YandexClient.create("***REMOVED***-sEk")
+                val rememberCoroutine = rememberCoroutineScope()
+                LaunchedEffect(true) {
+                    rememberCoroutine.launch {
+                        yandexClient.getAccountStatus()
+                    }
+                }
             }
         }
     }

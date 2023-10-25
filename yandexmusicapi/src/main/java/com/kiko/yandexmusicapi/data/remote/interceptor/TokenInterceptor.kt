@@ -1,4 +1,4 @@
-package com.kiko.yandexmusicapi.data.remote
+package com.kiko.yandexmusicapi.data.remote.interceptor
 
 import com.kiko.yandexmusicapi.YandexClient
 import okhttp3.Interceptor
