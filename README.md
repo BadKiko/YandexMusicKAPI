@@ -1,7 +1,11 @@
-# Yandex Music API for Kotlin
+<p align="center">
+<picture>
+<img width="160" height="160"  alt="XPanel" src="https://raw.githubusercontent.com/BadKiko/YandexMusicKAPI/master/kmusic.png">
+</picture>
+  </p> 
+<h1 align="center">Yandex Music Api for Kotlin</h1>
 
-> [!IMPORTANT]
-> Библиотека ещё в разработке и не имеет полный функционал.
+> [!IMPORTANT] Библиотека ещё в разработке и не имеет полный функционал.
 
 Это неофициальная библиотека для взаимодействия с API Яндекс.Музыки на языке Kotlin. 
 
@@ -12,7 +16,7 @@
 
 > Для Groovy:
 
-```
+```groovy
 allprojects {
   repositories {
     ...
@@ -23,7 +27,7 @@ allprojects {
 
 > Для Kotlin DSL:
 
-```
+```kotlin
 repositories {
   ...
   maven(url="https://jitpack.io")
@@ -36,14 +40,14 @@ repositories {
 
 > Для Groovy:
 
-```
-implementation 'com.github.BadKiko:kige:version'
+```groovy
+implementation 'com.github.BadKiko:YandexMusicKAPI:version'
 ```
 
 > Для Kotlin DSL:
 
-```
-implementation("com.github.BadKiko:kige:version")
+```kotlin
+implementation("com.github.BadKiko:YandexMusicKAPI:version")
 ```
 
 ### Получение токена
@@ -54,13 +58,13 @@ implementation("com.github.BadKiko:kige:version")
 ### Использование 
 
 Для начала вам необходимо создать YandexClient instance
-```
+```kotlin
 val yandexClient =  YandexClient.create(token = "token")
 ```
 
 #### Примеры дальнейшего использования 
 
-```
+```kotlin
 val accountStatus = yandexClient.getStatus()
 
 when(accountStatus){
