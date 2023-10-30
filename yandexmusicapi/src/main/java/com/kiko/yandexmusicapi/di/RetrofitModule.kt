@@ -1,6 +1,6 @@
 package com.kiko.yandexmusicapi.di
 
-import com.kiko.yandexmusicapi.YandexClient
+import com.kiko.yandexmusicapi.YandexMusicClient
 import com.kiko.yandexmusicapi.constants.YandexMusicConstants
 import com.kiko.yandexmusicapi.data.remote.interceptor.TokenInterceptor
 import com.kiko.yandexmusicapi.data.remote.interceptor.YandexUrlInterceptor
@@ -11,11 +11,11 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 object RetrofitModule {
 
     fun provideHttpClient(
-        yandexClient: YandexClient
+        yandexMusicClient: YandexMusicClient
     ): OkHttpClient {
         return OkHttpClient.Builder()
-            .addInterceptor(TokenInterceptor(yandexClient))
-            .addInterceptor(YandexUrlInterceptor(yandexClient))
+            .addInterceptor(TokenInterceptor(yandexMusicClient))
+            .addInterceptor(YandexUrlInterceptor(yandexMusicClient))
             .build()
     }
 

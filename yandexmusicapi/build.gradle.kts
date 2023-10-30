@@ -66,8 +66,8 @@ dependencies {
 publishing {
     publications {
         create<MavenPublication>("maven") {
-            groupId = "com.kiko.yandexmusickotlinapi"
-            artifactId = "yandexmusickotlinapi"
+            groupId = "com.kiko.yandexmusickapi"
+            artifactId = "yandexmusickapi"
             version = "0.0.1_inwork"
             afterEvaluate {
                 from(components["release"])

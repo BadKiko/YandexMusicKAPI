@@ -15,18 +15,18 @@ import retrofit2.Retrofit
  * @param token Уникальный ключ для аутенфикации
  * @param baseUrl Адрес на Yandex Music Api
  */
-class YandexClient(
+class YandexMusicClient(
     val token: String,
     val baseUrl: String = YandexMusicConstants.baseUrl
 ) {
     private lateinit var retrofit: Retrofit
 
     companion object {
-        fun create(token: String, baseUrl: String = YandexMusicConstants.baseUrl): YandexClient {
-            val yandexClient = YandexClient(token, baseUrl)
-            yandexClient.retrofit =
-                RetrofitModule.provideRetrofit(RetrofitModule.provideHttpClient(yandexClient = yandexClient))
-            return yandexClient
+        fun create(token: String, baseUrl: String = YandexMusicConstants.baseUrl): YandexMusicClient {
+            val yandexMusicClient = YandexMusicClient(token, baseUrl)
+            yandexMusicClient.retrofit =
+                RetrofitModule.provideRetrofit(RetrofitModule.provideHttpClient(yandexMusicClient = yandexMusicClient))
+            return yandexMusicClient
         }
     }
 

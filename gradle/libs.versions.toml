@@ -20,8 +20,6 @@ sealedx-core = "1.0.2"
 [libraries]
 converter-moshi = { module = "com.squareup.retrofit2:converter-moshi", version.ref = "retrofit" }
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
-hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt-compiler" }
-hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt-compiler" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext-junit" }
 espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso-core" }

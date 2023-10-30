@@ -1,4 +1,4 @@
-package com.kiko.yamusickotlinapi.ui.theme
+package com.kiko.yamusickapi.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

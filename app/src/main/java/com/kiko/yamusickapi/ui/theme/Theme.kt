@@ -1,4 +1,4 @@
-package com.kiko.yamusickotlinapi.ui.theme
+package com.kiko.yamusickapi.ui.theme
 
 import android.app.Activity
 import android.os.Build

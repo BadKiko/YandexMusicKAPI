@@ -1,4 +1,4 @@
-package com.kiko.yamusickotlinapi
+package com.kiko.yamusickapi
 
 import org.junit.Test
 

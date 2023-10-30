@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "com.kiko.yamusickotlinapi"
+    namespace = "com.kiko.yamusickapi"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.kiko.yamusickotlinapi"
+        applicationId = "com.kiko.yamusickapi"
         minSdk = 24
         targetSdk = 34
         versionCode = 1

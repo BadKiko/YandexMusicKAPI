@@ -1,5 +1,5 @@
 package com.kiko.yandexmusicapi.constants
 
-object YandexMusicConstants {
+internal object YandexMusicConstants {
     const val baseUrl = "https://api.music.yandex.net"
 }

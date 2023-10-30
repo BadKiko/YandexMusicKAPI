@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "YandexMusicKotlinAPI"
+rootProject.name = "YandexMusicKAPI"
 include(":app")
 include(":yandexmusicapi")
