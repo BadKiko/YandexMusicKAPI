@@ -9,6 +9,7 @@ import com.kiko.yandexmusicapi.YandexMusicClient
 import com.kiko.yandexmusicapi.data.common.AccountYandexState
 import com.kiko.yandexmusicapi.data.liked.state.LikedPlaylistsYandexState
 import com.kiko.yandexmusicapi.data.common.LikedTracksYandexState
+import com.kiko.yandexmusicapi.data.liked.state.LikedAlbumYandexState
 import kotlinx.coroutines.launch
 
 class MainViewModel() : ViewModel() {
@@ -19,6 +20,7 @@ class MainViewModel() : ViewModel() {
     var accountData by mutableStateOf<AccountYandexState>(AccountYandexState.Idle)
     var likedTracks by mutableStateOf<LikedTracksYandexState>(LikedTracksYandexState.Idle)
     var likedPlaylists by mutableStateOf<LikedPlaylistsYandexState>(LikedPlaylistsYandexState.Idle)
+    var likedAlbums by mutableStateOf<LikedAlbumYandexState>(LikedAlbumYandexState.Idle)
 
     init {
         viewModelScope.launch {
@@ -27,8 +29,8 @@ class MainViewModel() : ViewModel() {
             accountData.let { response ->
                 if (response is AccountYandexState.Success) {
                     likedTracks = liked.getLikedTracks(response.data.account?.uid.toString())
-
                     likedPlaylists = liked.getLikedPlaylists(response.data.account?.uid.toString())
+                    likedAlbums= liked.getLikedAlbums(response.data.account?.uid.toString())
                 }
             }
         }

@@ -25,6 +25,7 @@ import com.kiko.yandexmusicapi.data.account.remote.dto.StatusEntity
 import com.kiko.yandexmusicapi.data.common.AccountYandexState
 import com.kiko.yandexmusicapi.data.liked.state.LikedPlaylistsYandexState
 import com.kiko.yandexmusicapi.data.common.LikedTracksYandexState
+import com.kiko.yandexmusicapi.data.liked.state.LikedAlbumYandexState
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
@@ -80,6 +81,26 @@ class MainActivity : ComponentActivity() {
                                         Gson().toJson(response) ?: "Loading account data"
                                     )
                                 } else if (response is LikedPlaylistsYandexState.Error) {
+                                    jsonView.bindJson(
+                                        response.message
+                                    )
+                                }
+                            }
+                        })
+                    }
+                    item {
+                        Text("Albums", style = MaterialTheme.typography.titleLarge)
+                    }
+                    item {
+                        AndroidView(factory = {
+                            JsonViewLayout(it)
+                        }, update = { jsonView ->
+                            mainViewModel.likedAlbums.let { response ->
+                                if (response is LikedAlbumYandexState.Success) {
+                                    jsonView.bindJson(
+                                        Gson().toJson(response) ?: "Loading account data"
+                                    )
+                                } else if (response is LikedAlbumYandexState.Error) {
                                     jsonView.bindJson(
                                         response.message
                                     )
