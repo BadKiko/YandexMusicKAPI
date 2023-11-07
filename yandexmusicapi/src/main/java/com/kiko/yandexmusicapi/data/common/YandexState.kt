@@ -1,13 +1,16 @@
 package com.kiko.yandexmusicapi.data.common
 
 import com.kiko.yandexmusicapi.data.account.remote.dto.StatusEntity
+import com.kiko.yandexmusicapi.data.liked.remote.dto.playlists.LikedPlaylistsEntity
+import com.kiko.yandexmusicapi.data.liked.remote.dto.tracks.LikedTracksEntity
 import com.skydoves.sealedx.core.Extensive
 import com.skydoves.sealedx.core.annotations.ExtensiveModel
 import com.skydoves.sealedx.core.annotations.ExtensiveSealed
 
 @ExtensiveSealed(
     models = [
-        ExtensiveModel(StatusEntity::class)
+        ExtensiveModel(StatusEntity::class, "Account"),
+        ExtensiveModel(LikedTracksEntity::class,"LikedTracks")
     ]
 )
 /**

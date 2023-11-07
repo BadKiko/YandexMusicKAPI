@@ -11,7 +11,8 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class ResultWrapper<T>(
     val invocationInfo: InvocationInfoEntity,
-    val result: T
+    val result: T,
+    val pager: PagerEntity? = null
 )
 
 
@@ -27,4 +28,14 @@ data class InvocationInfoEntity(
     @Json(name = "req-id") val reqId: String,
     val hostname: String,
     @Json(name = "exec-duration-millis") val execDurationTime: Int
+)
+
+/**
+ * Страницы (юзается в плейлистах)
+ */
+@JsonClass(generateAdapter = true)
+data class PagerEntity(
+    val total: Int,
+    val page: Int,
+    val perPage: Int
 )

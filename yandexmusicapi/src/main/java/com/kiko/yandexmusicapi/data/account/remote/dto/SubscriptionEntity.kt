@@ -24,8 +24,8 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class SubscriptionEntity(
-    val nonAutoRenewableRemainder: RenewableRemainderEntity,
-    val autoRenewable: List<AutoRenewableEntity>,
+    val nonAutoRenewableRemainder: RenewableRemainderEntity? = null,
+    val autoRenewable: List<AutoRenewableEntity>? = null,
     val familyAutoRenewable: List<AutoRenewableEntity>? = null,
     val hadAnySubscription: Boolean,
     val operator: List<OperatorEntity>? = null,

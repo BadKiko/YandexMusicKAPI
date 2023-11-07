@@ -1,4 +1,4 @@
-package com.kiko.yandexmusicapi.data.likes.tracks
+package com.kiko.yandexmusicapi.data.liked.remote.dto.tracks
 
 
 import com.squareup.moshi.Json

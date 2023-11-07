@@ -1,4 +1,4 @@
-package com.kiko.yandexmusicapi.di
+package com.kiko.yandexmusicapi.di.common
 
 import com.kiko.yandexmusicapi.YandexMusicClient
 import com.kiko.yandexmusicapi.constants.YandexMusicConstants

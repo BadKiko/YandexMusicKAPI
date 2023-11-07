@@ -1,4 +1,4 @@
-package com.kiko.yandexmusicapi.data.account.module
+package com.kiko.yandexmusicapi.di.account
 
 import com.kiko.yandexmusicapi.data.account.remote.api.AccountApi
 import com.kiko.yandexmusicapi.data.account.repository.AccountRepositoryImpl
