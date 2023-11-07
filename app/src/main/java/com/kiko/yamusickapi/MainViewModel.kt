@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 
 class MainViewModel() : ViewModel() {
     val yandexMusicClient =
-        YandexMusicClient.create("***REMOVED***-sEk")
+        YandexMusicClient.create(BuildConfig.YANDEX_TOKEN)
     val liked = yandexMusicClient.getLiked()
 
     var accountData by mutableStateOf<AccountYandexState>(AccountYandexState.Idle)
@@ -30,7 +30,7 @@ class MainViewModel() : ViewModel() {
                 if (response is AccountYandexState.Success) {
                     likedTracks = liked.getLikedTracks(response.data.account?.uid.toString())
                     likedPlaylists = liked.getLikedPlaylists(response.data.account?.uid.toString())
-                    likedAlbums= liked.getLikedAlbums(response.data.account?.uid.toString())
+                    likedAlbums = liked.getLikedAlbums(response.data.account?.uid.toString())
                 }
             }
         }

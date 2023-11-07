@@ -5,6 +5,9 @@ import com.kiko.yandexmusicapi.data.remote.ResultWrapper
 import retrofit2.Call
 import retrofit2.http.GET
 
+/**
+ * Endpoints для взаимодействия с аккаунтом
+ */
 interface AccountApi {
     @GET("account/status")
     fun getAccountState(): Call<ResultWrapper<StatusEntity>>

@@ -8,6 +8,11 @@ import com.skydoves.sandwich.message
 import retrofit2.Retrofit
 
 class YandexMusicAccount(private val retrofit: Retrofit) {
+    /**
+     * Получение данных аккаунта
+     *
+     * @return возвращает результат получения данных
+     */
     suspend fun getAccountStatus(): AccountYandexState {
         val accountRepository =
             AccountModule.provideAccountRepository(AccountModule.provideAccountApi(retrofit))
