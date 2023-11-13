@@ -1,6 +1,7 @@
 package com.kiko.yandexmusicapi.domain.likes.usecase
 
 import com.kiko.yandexmusicapi.data.liked.remote.dto.albums.LikedAlbumEntity
+import com.kiko.yandexmusicapi.data.liked.remote.dto.artists.LikedArtistsEntity
 import com.kiko.yandexmusicapi.data.liked.remote.dto.playlists.LikedPlaylistsEntity
 import com.kiko.yandexmusicapi.data.liked.remote.dto.tracks.LikedTracksEntity
 import com.kiko.yandexmusicapi.data.remote.ResultWrapper
@@ -18,5 +19,9 @@ class LikedUseCase (private val likedRepository: LikedRepository) {
 
     suspend fun getAlbums(userId: String): ApiResponse<ResultWrapper<List<LikedAlbumEntity>>> {
         return likedRepository.getLikedAlbums(userId)
+    }
+
+    suspend fun getArtists(userId: String): ApiResponse<ResultWrapper<List<LikedArtistsEntity>>> {
+        return likedRepository.getLikedArtists(userId)
     }
 }

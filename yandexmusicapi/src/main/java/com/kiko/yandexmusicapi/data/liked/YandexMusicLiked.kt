@@ -3,6 +3,7 @@ package com.kiko.yandexmusicapi.data.liked
 import com.kiko.yandexmusicapi.data.liked.state.LikedPlaylistsYandexState
 import com.kiko.yandexmusicapi.data.common.LikedTracksYandexState
 import com.kiko.yandexmusicapi.data.liked.state.LikedAlbumYandexState
+import com.kiko.yandexmusicapi.data.liked.state.LikedArtistsYandexState
 import com.kiko.yandexmusicapi.di.likes.LikedModule
 import com.kiko.yandexmusicapi.domain.likes.usecase.LikedUseCase
 import com.skydoves.sandwich.ApiResponse
@@ -60,6 +61,22 @@ class YandexMusicLiked(private val retrofit: Retrofit) {
         return when (val result = LikedUseCase(likedTracksRepository).getAlbums(userId)) {
             is ApiResponse.Failure -> LikedAlbumYandexState.Error(result.message())
             is ApiResponse.Success -> LikedAlbumYandexState.Success(result.data.result)
+        }
+    }
+
+    /**
+     * Получение всех лайкнутых артистов пользователя
+     *
+     * @param userId - uid пользователя
+     * @return результат получения всех лайкнутых артистов
+     */
+    suspend fun getLikedArtists(userId: String): LikedArtistsYandexState {
+        val likedTracksRepository =
+            LikedModule.provideLikedRepository(LikedModule.provideLikedApi(retrofit))
+
+        return when (val result = LikedUseCase(likedTracksRepository).getArtists(userId)) {
+            is ApiResponse.Failure -> LikedArtistsYandexState.Error(result.message())
+            is ApiResponse.Success -> LikedArtistsYandexState.Success(result.data.result)
         }
     }
 }
