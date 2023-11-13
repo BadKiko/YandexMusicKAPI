@@ -1,4 +1,4 @@
-package com.kiko.yandexmusicapi.data.rotor.remote.dto
+package com.kiko.yandexmusicapi.data.account.remote.dto
 
 import com.squareup.moshi.JsonClass
 

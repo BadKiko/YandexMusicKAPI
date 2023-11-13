@@ -1,8 +1,5 @@
 package com.kiko.yandexmusicapi.data.account.remote.dto
 
-import com.kiko.yandexmusicapi.data.account.remote.dto.AccountEntity
-import com.kiko.yandexmusicapi.data.rotor.remote.dto.StationDataEntity
-import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 
