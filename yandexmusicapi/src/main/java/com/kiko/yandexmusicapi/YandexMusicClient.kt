@@ -3,6 +3,7 @@ package com.kiko.yandexmusicapi
 import com.kiko.yandexmusicapi.constants.YandexMusicConstants
 import com.kiko.yandexmusicapi.data.account.YandexMusicAccount
 import com.kiko.yandexmusicapi.data.liked.YandexMusicLiked
+import com.kiko.yandexmusicapi.data.radio.YandexMusicRadio
 import com.kiko.yandexmusicapi.di.common.RetrofitModule
 import retrofit2.Retrofit
 
@@ -32,4 +33,5 @@ class YandexMusicClient(
 
     fun getAccount() = YandexMusicAccount(retrofit)
     fun getLiked() = YandexMusicLiked(retrofit)
+    fun getRadio() = YandexMusicRadio(retrofit)
 }

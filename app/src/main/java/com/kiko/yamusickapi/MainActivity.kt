@@ -25,6 +25,7 @@ import com.kiko.yandexmusicapi.data.account.remote.dto.StatusEntity
 import com.kiko.yandexmusicapi.data.common.AccountYandexState
 import com.kiko.yandexmusicapi.data.liked.state.LikedPlaylistsYandexState
 import com.kiko.yandexmusicapi.data.common.LikedTracksYandexState
+import com.kiko.yandexmusicapi.data.common.RadioSessionYandexState
 import com.kiko.yandexmusicapi.data.liked.state.LikedAlbumYandexState
 import kotlinx.coroutines.launch
 
@@ -108,24 +109,29 @@ class MainActivity : ComponentActivity() {
                             }
                         })
                     }
+
+                    item {
+                        Text("OnMyWave New Session", style = MaterialTheme.typography.titleLarge)
+                    }
+                    item {
+                        AndroidView(factory = {
+                            JsonViewLayout(it)
+                        }, update = { jsonView ->
+                            mainViewModel.onMyWaveRadioSession.let { response ->
+                                if (response is RadioSessionYandexState.Success) {
+                                    jsonView.bindJson(
+                                        Gson().toJson(response) ?: "Loading account data"
+                                    )
+                                } else if (response is RadioSessionYandexState.Error) {
+                                    jsonView.bindJson(
+                                        response.message
+                                    )
+                                }
+                            }
+                        })
+                    }
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    YandexMusicKotlinAPITheme {
-        Greeting("Android")
     }
 }
