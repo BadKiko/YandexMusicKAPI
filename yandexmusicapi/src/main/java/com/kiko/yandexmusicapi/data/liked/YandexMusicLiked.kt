@@ -14,6 +14,8 @@ import retrofit2.Retrofit
  * Класс предоставляющий работу с лайками
  */
 class YandexMusicLiked(private val retrofit: Retrofit) {
+    private val likedTracksRepository =
+        LikedModule.provideLikedRepository(LikedModule.provideLikedApi(retrofit))
 
     /**
      * Получение всех лайкнутых треков пользователя
@@ -22,9 +24,6 @@ class YandexMusicLiked(private val retrofit: Retrofit) {
      * @return результат получения лайкнутых треков
      */
     suspend fun getLikedTracks(userId: String): LikedTracksYandexState {
-        val likedTracksRepository =
-            LikedModule.provideLikedRepository(LikedModule.provideLikedApi(retrofit))
-
         return when (val result = LikedUseCase(likedTracksRepository).getTracks(userId)) {
             is ApiResponse.Failure -> LikedTracksYandexState.Error(result.message())
             is ApiResponse.Success -> LikedTracksYandexState.Success(result.data.result)
@@ -39,9 +38,6 @@ class YandexMusicLiked(private val retrofit: Retrofit) {
      * @return результат получения всех лайкнутых плейлистов
      */
     suspend fun getLikedPlaylists(userId: String): LikedPlaylistsYandexState {
-        val likedTracksRepository =
-            LikedModule.provideLikedRepository(LikedModule.provideLikedApi(retrofit))
-
         return when (val result = LikedUseCase(likedTracksRepository).getPlaylists(userId)) {
             is ApiResponse.Failure -> LikedPlaylistsYandexState.Error(result.message())
             is ApiResponse.Success -> LikedPlaylistsYandexState.Success(result.data.result)
@@ -55,9 +51,6 @@ class YandexMusicLiked(private val retrofit: Retrofit) {
      * @return результат получения всех лайкнутых альбомов
      */
     suspend fun getLikedAlbums(userId: String): LikedAlbumYandexState {
-        val likedTracksRepository =
-            LikedModule.provideLikedRepository(LikedModule.provideLikedApi(retrofit))
-
         return when (val result = LikedUseCase(likedTracksRepository).getAlbums(userId)) {
             is ApiResponse.Failure -> LikedAlbumYandexState.Error(result.message())
             is ApiResponse.Success -> LikedAlbumYandexState.Success(result.data.result)
@@ -71,9 +64,6 @@ class YandexMusicLiked(private val retrofit: Retrofit) {
      * @return результат получения всех лайкнутых артистов
      */
     suspend fun getLikedArtists(userId: String): LikedArtistsYandexState {
-        val likedTracksRepository =
-            LikedModule.provideLikedRepository(LikedModule.provideLikedApi(retrofit))
-
         return when (val result = LikedUseCase(likedTracksRepository).getArtists(userId)) {
             is ApiResponse.Failure -> LikedArtistsYandexState.Error(result.message())
             is ApiResponse.Success -> LikedArtistsYandexState.Success(result.data.result)

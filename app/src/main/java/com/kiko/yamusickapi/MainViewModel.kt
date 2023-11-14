@@ -9,6 +9,7 @@ import com.kiko.yandexmusicapi.YandexMusicClient
 import com.kiko.yandexmusicapi.data.common.AccountYandexState
 import com.kiko.yandexmusicapi.data.liked.state.LikedPlaylistsYandexState
 import com.kiko.yandexmusicapi.data.common.LikedTracksYandexState
+import com.kiko.yandexmusicapi.data.common.RadioQueueYandexState
 import com.kiko.yandexmusicapi.data.common.RadioSessionYandexState
 import com.kiko.yandexmusicapi.data.liked.state.LikedAlbumYandexState
 import com.kiko.yandexmusicapi.data.liked.state.LikedArtistsYandexState
@@ -28,6 +29,7 @@ class MainViewModel() : ViewModel() {
     var likedArtists by mutableStateOf<LikedArtistsYandexState>(LikedArtistsYandexState.Idle)
 
     var onMyWaveRadioSession by mutableStateOf<RadioSessionYandexState>(RadioSessionYandexState.Idle)
+    var onMyWaveRadioQueue by mutableStateOf<RadioQueueYandexState>(RadioQueueYandexState.Idle)
 
     init {
         viewModelScope.launch {
@@ -39,9 +41,12 @@ class MainViewModel() : ViewModel() {
                     likedPlaylists = liked.getLikedPlaylists(response.data.account?.uid.toString())
                     likedAlbums = liked.getLikedAlbums(response.data.account?.uid.toString())
                     likedArtists = liked.getLikedArtists(response.data.account?.uid.toString())
-
                     onMyWaveRadioSession = radio.getMyWaveRadioSession()
                 }
+            }
+
+            onMyWaveRadioSession.let { session ->
+                onMyWaveRadioQueue = radio.getTracksQueue()
             }
         }
     }

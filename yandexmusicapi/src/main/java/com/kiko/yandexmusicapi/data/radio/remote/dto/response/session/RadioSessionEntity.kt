@@ -1,7 +1,7 @@
 package com.kiko.yandexmusicapi.data.radio.remote.dto.response.session
 
 
-import com.kiko.yandexmusicapi.data.radio.remote.dto.response.session.tracks.SequenceEntity
+import com.kiko.yandexmusicapi.data.radio.remote.dto.response.session.tracks.TracksQueueEntity
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
@@ -18,5 +18,5 @@ data class RadioSessionEntity(
     @Json(name = "radioSessionId")
     val radioSessionId: String,
     @Json(name = "sequence")
-    val sequence: List<SequenceEntity>
+    val sequence: List<TracksQueueEntity>
 )

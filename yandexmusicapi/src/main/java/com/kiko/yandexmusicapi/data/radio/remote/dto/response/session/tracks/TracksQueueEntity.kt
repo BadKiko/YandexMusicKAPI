@@ -6,7 +6,7 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class SequenceEntity(
+data class TracksQueueEntity(
     @Json(name = "liked")
     val liked: Boolean,
     @Json(name = "track")
