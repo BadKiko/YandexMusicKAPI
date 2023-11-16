@@ -2,6 +2,7 @@ package com.kiko.yandexmusicapi.data.radio.remote.dto.request
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import com.kiko.yandexmusicapi.utils.toYandexType
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 import java.time.LocalDateTime
@@ -38,7 +39,7 @@ data class EventEntity(
             playedSeconds: String,
             event: RadioEvent
         ): EventEntity {
-            val timestamp = LocalDateTime.now().toString()
+            val timestamp = LocalDateTime.now().toYandexType()
             return EventEntity(timestamp, playedSeconds, currentTrackId.toString(), event.event)
         }
 
@@ -49,7 +50,7 @@ data class EventEntity(
             currentTrackId: Int,
             event: RadioEvent
         ): EventEntity {
-            val timestamp = LocalDateTime.now().toString()
+            val timestamp = LocalDateTime.now().toYandexType()
             return EventEntity(timestamp, null, currentTrackId.toString(), event.event)
         }
     }

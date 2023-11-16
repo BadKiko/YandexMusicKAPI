@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -151,6 +152,28 @@ class MainActivity : ComponentActivity() {
                                 }
                             }
                         })
+                    }
+
+                    item {
+                        Text("Current playing track", style = MaterialTheme.typography.titleLarge)
+                    }
+                    item {
+                        mainViewModel.currentTrack?.let { track ->
+                            Text(
+                                text = "${
+                                    track.track.artists.joinToString(", ") { it.name }
+                                } - ${track.track.title}"
+                            )
+                        }
+                    }
+
+                    item {
+                        Text("Next playing track", style = MaterialTheme.typography.titleLarge)
+                    }
+                    item {
+                        Button(onClick = { mainViewModel.nextTrack() }) {
+                            Text(text = "Next")
+                        }
                     }
                 }
             }

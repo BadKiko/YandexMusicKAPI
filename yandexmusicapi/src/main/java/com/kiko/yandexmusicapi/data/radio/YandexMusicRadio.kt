@@ -11,10 +11,15 @@ import com.kiko.yandexmusicapi.data.radio.remote.dto.response.session.RadioSessi
 import com.kiko.yandexmusicapi.data.radio.remote.dto.response.session.tracks.TracksQueueEntity
 import com.kiko.yandexmusicapi.di.radio.RadioModule
 import com.kiko.yandexmusicapi.domain.radio.usecase.RadioUseCase
+import com.kiko.yandexmusicapi.utils.toLocalTime
+import com.kiko.yandexmusicapi.utils.toYandexType
 import com.skydoves.sandwich.ApiResponse
 import com.skydoves.sandwich.message
 import retrofit2.Retrofit
+import java.time.Duration
+import java.time.LocalDateTime
 import java.time.LocalTime
+import java.time.temporal.ChronoUnit
 
 /**
  * Класс предоставляющий работу с радио
@@ -84,6 +89,7 @@ class YandexMusicRadio(private val retrofit: Retrofit) {
 
         val firstTrack = tracksQueue?.first()?.track?.id?.toIntOrNull()
 
+        // Генерируем запрос для получения очереди треков
         val requestRadioTracksQueue = RequestRadioTracksQueue(
             if (firstTrack == null) {
                 listOf()
@@ -94,7 +100,7 @@ class YandexMusicRadio(private val retrofit: Retrofit) {
 
 
         return when (
-            /* Получает следующие треки для использования нужно пробросить 1 трек что был в очереди
+            /* Получает следующие треки для использования
          ref: https://github.com/MarshalX/yandex-music-api/issues/589*/
 
             val result = RadioUseCase(radioRepository).getRadioTracksQueue(
@@ -105,52 +111,84 @@ class YandexMusicRadio(private val retrofit: Retrofit) {
             is ApiResponse.Success -> {
                 tracksQueue = result.data.result.sequence
 
-                tracksQueue?.let { tracks ->
-                    val radioNotifyEvent = RequestNotifyRadio(
-                        session!!.batchId,
-                        EventEntity.generateEvent(
-                            tracks.first().track.id.toInt(),
-                            RadioEvent.START_RADIO
-                        )
-                    )
+                // Записываем текущий трек для прослушивания
+                nowPlayingTrack = tracksQueue!!.first()
 
-                    radioRepository.notifyStartRadioSession(
-                        session!!.radioSessionId,
-                        radioNotifyEvent
+                // Уведомляем Yandex Music что радио начило работать
+                val radioNotifyEvent = RequestNotifyRadio(
+                    session!!.batchId,
+                    EventEntity.generateEvent(
+                        tracksQueue!!.first().track.id.toInt(),
+                        RadioEvent.START_RADIO
                     )
-                }
+                )
+
+                radioRepository.notifyStartRadioSession(
+                    session!!.radioSessionId,
+                    radioNotifyEvent
+                )
 
                 RadioQueueYandexState.Success(result.data.result)
             }
         }
     }
 
+    /**
+     * Получает текущий играющий трек
+     */
     fun getCurrentPlayingTrack(): TracksQueueEntity? {
-        tracksQueue?.let { tracks ->
+        if (session == null)
+            throw Exception("Вам необходимо сначала получить радио сессию через getMyWaveRadioSession или getCustomRadioSession")
 
-            val nowPlayingIndex = tracks.indexOfFirst { it == nowPlayingTrack }
-            nowPlayingTrack = tracks.getOrElse(nowPlayingIndex + 1) {
-                tracks.last()
-            }
+        // Считаем что если получили запрос на получение трека то его будут слушать
+        trackPlayingTime = LocalTime.now()
 
-            session?.let {
-                radioRepository.notifySkipTrackFromRadioSession(
-                    it.radioSessionId,
-                    RequestNotifyRadio(
-                        it.batchId,
-                        EventEntity.generateEvent(
-                            nowPlayingTrack!!.track.id.toInt(),
-                            RadioEvent.START_RADIO
-                        )
+        nowPlayingTrack?.let { playingTrack ->
+            // Уведомляем Yandex Music что начался трек
+            radioRepository.notifyStartTrackFromRadioSession(
+                session!!.radioSessionId,
+                RequestNotifyRadio(
+                    session!!.batchId,
+                    EventEntity.generateEvent(
+                        playingTrack.track.id.toInt(),
+                        RadioEvent.START_TRACK
                     )
                 )
-            }
+            )
         }
+
         return nowPlayingTrack
     }
-    /*
-            fun nextTrack() {
-                radioRepository.notifySkipTrackFromRadioSession()
 
-            }*/
+    fun nextTrack() {
+        if (session == null)
+            throw Exception("Вам необходимо сначала получить радио сессию через getMyWaveRadioSession или getCustomRadioSession")
+
+        // Уведомляем Яндекс Музыку что мы пропускаем трек
+        nowPlayingTrack?.let { playingTrack ->
+            radioRepository.notifySkipTrackFromRadioSession(
+                session!!.radioSessionId,
+                RequestNotifyRadio(
+                    session!!.batchId,
+                    EventEntity.generateEvent(
+                        playingTrack.track.id.toInt(),
+                        Duration.between(LocalTime.now(), trackPlayingTime)
+                            .toLocalTime().toSecondOfDay().toString(),
+                        RadioEvent.SKIP_TRACK
+                    )
+                )
+            )
+
+
+            // TODO(Сделать потом end track notify)
+
+            // Получаем следующий трек
+            val nextTrackIndex = tracksQueue!!.indexOf(playingTrack)+1
+            if (nextTrackIndex == tracksQueue!!.lastIndex) {
+                //TODO(Сделать обновление секвенции треков)
+            } else {
+                nowPlayingTrack = tracksQueue!![nextTrackIndex]
+            }
+        }
+    }
 }

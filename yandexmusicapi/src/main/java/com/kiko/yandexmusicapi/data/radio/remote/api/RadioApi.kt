@@ -6,6 +6,7 @@ import com.kiko.yandexmusicapi.data.radio.remote.dto.request.RequestNotifyRadio
 import com.kiko.yandexmusicapi.data.radio.remote.dto.response.queue.RadioQueueEntity
 import com.kiko.yandexmusicapi.data.radio.remote.dto.response.session.RadioSessionEntity
 import com.kiko.yandexmusicapi.data.remote.ResultWrapper
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.POST
@@ -32,23 +33,23 @@ interface RadioApi {
      * Уведомить сессию о начале радио
      */
     @POST("rotor/session/{sessionId}/feedback")
-    fun notifyStartRadioSession(@Path("sessionId") sessionId: String, @Body requestNotifyRadio: RequestNotifyRadio)
+    fun notifyStartRadioSession(@Path("sessionId") sessionId: String, @Body requestNotifyRadio: RequestNotifyRadio) : Call<ResponseBody>
 
     /**
      * Уведомить сессию о запуске трека
      */
     @POST("rotor/session/{sessionId}/feedback")
-    fun notifyStartTrack(@Path("sessionId") sessionId: String,  @Body requestNotifyRadio: RequestNotifyRadio)
+    fun notifyStartTrack(@Path("sessionId") sessionId: String,  @Body requestNotifyRadio: RequestNotifyRadio) : Call<ResponseBody>
 
     /**
      * Уведомить сессию о пропуске трека
      */
     @POST("rotor/session/{sessionId}/feedback")
-    fun notifySkipTrack(@Path("sessionId") sessionId: String,  @Body requestNotifyRadio: RequestNotifyRadio)
+    fun notifySkipTrack(@Path("sessionId") sessionId: String,  @Body requestNotifyRadio: RequestNotifyRadio) : Call<ResponseBody>
 
     /**
      * Уведомить сессию о конце трека
      */
     @POST("rotor/session/{sessionId}/feedback")
-    fun notifyEndTrack(@Path("sessionId") sessionId: String,  @Body requestNotifyRadio: RequestNotifyRadio)
+    fun notifyEndTrack(@Path("sessionId") sessionId: String,  @Body requestNotifyRadio: RequestNotifyRadio) : Call<ResponseBody>
 }

@@ -13,6 +13,7 @@ import com.kiko.yandexmusicapi.data.common.RadioQueueYandexState
 import com.kiko.yandexmusicapi.data.common.RadioSessionYandexState
 import com.kiko.yandexmusicapi.data.liked.state.LikedAlbumYandexState
 import com.kiko.yandexmusicapi.data.liked.state.LikedArtistsYandexState
+import com.kiko.yandexmusicapi.data.radio.remote.dto.response.session.tracks.TracksQueueEntity
 import kotlinx.coroutines.launch
 
 class MainViewModel() : ViewModel() {
@@ -30,6 +31,7 @@ class MainViewModel() : ViewModel() {
 
     var onMyWaveRadioSession by mutableStateOf<RadioSessionYandexState>(RadioSessionYandexState.Idle)
     var onMyWaveRadioQueue by mutableStateOf<RadioQueueYandexState>(RadioQueueYandexState.Idle)
+    var currentTrack by mutableStateOf<TracksQueueEntity?>(null)
 
     init {
         viewModelScope.launch {
@@ -45,9 +47,15 @@ class MainViewModel() : ViewModel() {
                 }
             }
 
-           /* onMyWaveRadioSession.let { session ->
+            onMyWaveRadioSession.let { session ->
                 onMyWaveRadioQueue = radio.getTracksQueue()
-            }*/
+                currentTrack = radio.getCurrentPlayingTrack()
+            }
         }
+    }
+
+    fun nextTrack(){
+        radio.nextTrack()
+        currentTrack = radio.getCurrentPlayingTrack()
     }
 }
