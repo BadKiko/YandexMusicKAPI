@@ -82,75 +82,75 @@ class YandexMusicRadio(private val retrofit: Retrofit) {
         if (session == null)
             throw Exception("Вам необходимо сначала получить радио сессию через getMyWaveRadioSession или getCustomRadioSession")
 
-        session?.let {
-            val firstTrack = tracksQueue?.first()?.track?.id?.toIntOrNull()
+        val firstTrack = tracksQueue?.first()?.track?.id?.toIntOrNull()
 
-            val requestRadioTracksQueue = RequestRadioTracksQueue(
-                if (firstTrack == null) {
-                    listOf()
-                } else {
-                    listOf(firstTrack)
-                }
-            )
-
-            return when (
-                /* Получает следующие треки для использования нужно пробросить 1 трек что был в очереди
-             ref: https://github.com/MarshalX/yandex-music-api/issues/589*/
-
-                val result = RadioUseCase(radioRepository).getRadioTracksQueue(
-                    it.radioSessionId, requestRadioTracksQueue
-                )
-            ) {
-                is ApiResponse.Failure -> RadioQueueYandexState.Error(result.message())
-                is ApiResponse.Success -> {
-                    tracksQueue = result.data.result.sequence
-
-
-                    tracksQueue?.let { tracks ->
-                        radioRepository.notifyStartRadioSession(
-                            it.radioSessionId,
-                            RequestNotifyRadio(
-                                it.batchId,
-                                EventEntity.generateEvent(
-                                    tracks.first().track.id.toInt(),
-                                    RadioEvent.START_RADIO
-                                )
-                            )
-                        )
-                    }
-
-                    RadioQueueYandexState.Success(result.data.result)
-                }
+        val requestRadioTracksQueue = RequestRadioTracksQueue(
+            if (firstTrack == null) {
+                listOf()
+            } else {
+                listOf(firstTrack)
             }
-        }
+        )
 
-        fun getCurrentPlayingTrack(): TracksQueueEntity? {
-            tracksQueue?.let { tracks ->
 
-                val nowPlayingIndex = tracks.indexOfFirst { it == nowPlayingTrack }
-                nowPlayingTrack = tracks.getOrElse(nowPlayingIndex + 1) {
-                    tracks.last()
-                }
+        return when (
+            /* Получает следующие треки для использования нужно пробросить 1 трек что был в очереди
+         ref: https://github.com/MarshalX/yandex-music-api/issues/589*/
 
-                session?.let {
-                    radioRepository.notifySkipTrackFromRadioSession(
-                        it.radioSessionId,
-                        RequestNotifyRadio(
-                            it.batchId,
-                            EventEntity.generateEvent(
-                                nowPlayingTrack!!.track.id.toInt(),
-                                RadioEvent.START_RADIO
-                            )
+            val result = RadioUseCase(radioRepository).getRadioTracksQueue(
+                session!!.radioSessionId, requestRadioTracksQueue
+            )
+        ) {
+            is ApiResponse.Failure -> RadioQueueYandexState.Error(result.message())
+            is ApiResponse.Success -> {
+                tracksQueue = result.data.result.sequence
+
+                tracksQueue?.let { tracks ->
+                    val radioNotifyEvent = RequestNotifyRadio(
+                        session!!.batchId,
+                        EventEntity.generateEvent(
+                            tracks.first().track.id.toInt(),
+                            RadioEvent.START_RADIO
                         )
                     )
-                }
-            }
-            return nowPlayingTrack
-        }
-        /*
-                fun nextTrack() {
-                    radioRepository.notifySkipTrackFromRadioSession()
 
-                }*/
+                    radioRepository.notifyStartRadioSession(
+                        session!!.radioSessionId,
+                        radioNotifyEvent
+                    )
+                }
+
+                RadioQueueYandexState.Success(result.data.result)
+            }
+        }
     }
+
+    fun getCurrentPlayingTrack(): TracksQueueEntity? {
+        tracksQueue?.let { tracks ->
+
+            val nowPlayingIndex = tracks.indexOfFirst { it == nowPlayingTrack }
+            nowPlayingTrack = tracks.getOrElse(nowPlayingIndex + 1) {
+                tracks.last()
+            }
+
+            session?.let {
+                radioRepository.notifySkipTrackFromRadioSession(
+                    it.radioSessionId,
+                    RequestNotifyRadio(
+                        it.batchId,
+                        EventEntity.generateEvent(
+                            nowPlayingTrack!!.track.id.toInt(),
+                            RadioEvent.START_RADIO
+                        )
+                    )
+                )
+            }
+        }
+        return nowPlayingTrack
+    }
+    /*
+            fun nextTrack() {
+                radioRepository.notifySkipTrackFromRadioSession()
+
+            }*/
 }

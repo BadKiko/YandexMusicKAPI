@@ -30,28 +30,28 @@ class RadioRepositoryImpl(private val radioAPI: RadioApi) : RadioRepository {
         }
     }
 
-    override suspend fun notifyStartRadioSession(
+    override fun notifyStartRadioSession(
         sessionId: String,
         requestNotifyRadio: RequestNotifyRadio
     ) {
         radioAPI.notifyStartRadioSession(sessionId, requestNotifyRadio)
     }
 
-    override suspend fun notifyStartTrackFromRadioSession(
+    override fun notifyStartTrackFromRadioSession(
         sessionId: String,
         requestNotifyRadio: RequestNotifyRadio
     ) {
         radioAPI.notifyStartTrack(sessionId, requestNotifyRadio)
     }
 
-    override suspend fun notifySkipTrackFromRadioSession(
+    override fun notifySkipTrackFromRadioSession(
         sessionId: String,
         requestNotifyRadio: RequestNotifyRadio
     ) {
         radioAPI.notifySkipTrack(sessionId, requestNotifyRadio)
     }
 
-    override suspend fun notifyEndTrackFromRadioSession(
+    override fun notifyEndTrackFromRadioSession(
         sessionId: String,
         requestNotifyRadio: RequestNotifyRadio
     ) {

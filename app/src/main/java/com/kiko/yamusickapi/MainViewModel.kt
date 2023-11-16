@@ -45,9 +45,9 @@ class MainViewModel() : ViewModel() {
                 }
             }
 
-            onMyWaveRadioSession.let { session ->
+           /* onMyWaveRadioSession.let { session ->
                 onMyWaveRadioQueue = radio.getTracksQueue()
-            }
+            }*/
         }
     }
 }
