@@ -12,14 +12,12 @@ import com.kiko.yandexmusicapi.data.radio.remote.dto.response.session.tracks.Tra
 import com.kiko.yandexmusicapi.di.radio.RadioModule
 import com.kiko.yandexmusicapi.domain.radio.usecase.RadioUseCase
 import com.kiko.yandexmusicapi.utils.toLocalTime
-import com.kiko.yandexmusicapi.utils.toYandexType
 import com.skydoves.sandwich.ApiResponse
 import com.skydoves.sandwich.message
 import retrofit2.Retrofit
 import java.time.Duration
-import java.time.LocalDateTime
 import java.time.LocalTime
-import java.time.temporal.ChronoUnit
+import kotlin.math.absoluteValue
 
 /**
  * Класс предоставляющий работу с радио
@@ -83,7 +81,7 @@ class YandexMusicRadio(private val retrofit: Retrofit) {
      * @return сессия и треки
      */
     @Throws
-    suspend fun getTracksQueue(): RadioQueueYandexState {
+    suspend fun loadTracksQueue(): RadioQueueYandexState {
         if (session == null)
             throw Exception("Вам необходимо сначала получить радио сессию через getMyWaveRadioSession или getCustomRadioSession")
 
@@ -118,8 +116,7 @@ class YandexMusicRadio(private val retrofit: Retrofit) {
                 val radioNotifyEvent = RequestNotifyRadio(
                     session!!.batchId,
                     EventEntity.generateEvent(
-                        tracksQueue!!.first().track.id.toInt(),
-                        RadioEvent.START_RADIO
+                        tracksQueue!!.first().track.id.toInt()
                     )
                 )
 
@@ -150,8 +147,7 @@ class YandexMusicRadio(private val retrofit: Retrofit) {
                 RequestNotifyRadio(
                     session!!.batchId,
                     EventEntity.generateEvent(
-                        playingTrack.track.id.toInt(),
-                        RadioEvent.START_TRACK
+                        playingTrack.track.id.toInt()
                     )
                 )
             )
@@ -160,7 +156,7 @@ class YandexMusicRadio(private val retrofit: Retrofit) {
         return nowPlayingTrack
     }
 
-    fun nextTrack() {
+    suspend fun nextTrack() {
         if (session == null)
             throw Exception("Вам необходимо сначала получить радио сессию через getMyWaveRadioSession или getCustomRadioSession")
 
@@ -173,21 +169,41 @@ class YandexMusicRadio(private val retrofit: Retrofit) {
                     EventEntity.generateEvent(
                         playingTrack.track.id.toInt(),
                         Duration.between(LocalTime.now(), trackPlayingTime)
-                            .toLocalTime().toSecondOfDay().toString(),
-                        RadioEvent.SKIP_TRACK
+                            .toLocalTime().toSecondOfDay().toString()
                     )
                 )
             )
 
 
-            // TODO(Сделать потом end track notify)
+            // Если мы прослушали весь трек - 20 секунд то считаем что он прослушен
+            // И уведомляем яндекс музыку о конце трека
+            // TODO(Сделать вычет времени паузы на треке)
+            if (Duration.between(LocalTime.now(), trackPlayingTime)
+                    .toMillis().absoluteValue >= playingTrack.track.durationMs - 20000
+            ) {
+                radioRepository.notifyEndTrackFromRadioSession(
+                    session!!.radioSessionId,
+                    RequestNotifyRadio(
+                        session!!.batchId,
+                        EventEntity.generateEvent(
+                            playingTrack.track.id.toInt(),
+                            Duration.between(LocalTime.now(), trackPlayingTime)
+                                .toLocalTime().toSecondOfDay().toString()
+
+                        )
+                    )
+                )
+            }
 
             // Получаем следующий трек
-            val nextTrackIndex = tracksQueue!!.indexOf(playingTrack)+1
-            if (nextTrackIndex == tracksQueue!!.lastIndex) {
-                //TODO(Сделать обновление секвенции треков)
-            } else {
+            val nextTrackIndex = tracksQueue!!.indexOf(playingTrack) + 1
+            if (nextTrackIndex != tracksQueue!!.lastIndex + 1) {
                 nowPlayingTrack = tracksQueue!![nextTrackIndex]
+            }
+
+            // Деаем подгрузку следующих треков
+            if (nextTrackIndex == tracksQueue!!.lastIndex - 1) {
+                loadTracksQueue()
             }
         }
     }

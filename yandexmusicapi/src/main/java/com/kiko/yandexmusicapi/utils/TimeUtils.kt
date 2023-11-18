@@ -9,11 +9,10 @@ import kotlin.math.absoluteValue
 import kotlin.time.toKotlinDuration
 
 fun Duration.toLocalTime(): LocalTime {
-    val duration = this.toKotlinDuration()
     return LocalTime.of(
-        duration.inWholeHours.absoluteValue.toInt(),
-        duration.inWholeMinutes.absoluteValue.toInt(),
-        duration.inWholeSeconds.absoluteValue.toInt(),
+        this.toHours().absoluteValue.toInt(),
+        this.toMinutes().absoluteValue.toInt(),
+        ((this.toMillis() / 1000) % 60).absoluteValue.toInt(),
     )
 }
 

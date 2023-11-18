@@ -27,7 +27,7 @@ data class EventEntity(
     @Json(name = "trackId")
     val trackId: String,
     @Json(name = "type")
-    val type: String
+    val type: String?
 ) {
 
     companion object {
@@ -36,11 +36,10 @@ data class EventEntity(
          */
         fun generateEvent(
             currentTrackId: Int,
-            playedSeconds: String,
-            event: RadioEvent
+            playedSeconds: String
         ): EventEntity {
             val timestamp = LocalDateTime.now().toYandexType()
-            return EventEntity(timestamp, playedSeconds, currentTrackId.toString(), event.event)
+            return EventEntity(timestamp, playedSeconds, currentTrackId.toString(), null)
         }
 
         /**
@@ -48,10 +47,9 @@ data class EventEntity(
          */
         fun generateEvent(
             currentTrackId: Int,
-            event: RadioEvent
         ): EventEntity {
             val timestamp = LocalDateTime.now().toYandexType()
-            return EventEntity(timestamp, null, currentTrackId.toString(), event.event)
+            return EventEntity(timestamp, null, currentTrackId.toString(), null)
         }
     }
 }

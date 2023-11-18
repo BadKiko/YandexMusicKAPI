@@ -48,14 +48,16 @@ class MainViewModel() : ViewModel() {
             }
 
             onMyWaveRadioSession.let { session ->
-                onMyWaveRadioQueue = radio.getTracksQueue()
+                onMyWaveRadioQueue = radio.loadTracksQueue()
                 currentTrack = radio.getCurrentPlayingTrack()
             }
         }
     }
 
     fun nextTrack(){
-        radio.nextTrack()
+        viewModelScope.launch {
+            radio.nextTrack()
+        }
         currentTrack = radio.getCurrentPlayingTrack()
     }
 }
