@@ -4,7 +4,7 @@ import com.kiko.yandexmusicapi.data.liked.remote.dto.albums.LikedAlbumEntity
 import com.kiko.yandexmusicapi.data.liked.remote.dto.artists.LikedArtistsEntity
 import com.kiko.yandexmusicapi.data.liked.remote.dto.playlists.LikedPlaylistsEntity
 import com.kiko.yandexmusicapi.data.liked.remote.dto.tracks.LikedTracksEntity
-import com.kiko.yandexmusicapi.data.remote.ResultWrapper
+import com.kiko.yandexmusicapi.data.common.remote.ResultWrapper
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path

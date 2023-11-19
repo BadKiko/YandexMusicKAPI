@@ -5,7 +5,7 @@ import com.kiko.yandexmusicapi.data.radio.remote.dto.request.RequestNewRadioSess
 import com.kiko.yandexmusicapi.data.radio.remote.dto.request.RequestNotifyRadio
 import com.kiko.yandexmusicapi.data.radio.remote.dto.response.queue.RadioQueueEntity
 import com.kiko.yandexmusicapi.data.radio.remote.dto.response.session.RadioSessionEntity
-import com.kiko.yandexmusicapi.data.remote.ResultWrapper
+import com.kiko.yandexmusicapi.data.common.remote.ResultWrapper
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.Body

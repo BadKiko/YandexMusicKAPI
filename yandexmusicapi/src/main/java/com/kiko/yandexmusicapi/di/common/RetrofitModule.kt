@@ -2,8 +2,8 @@ package com.kiko.yandexmusicapi.di.common
 
 import com.kiko.yandexmusicapi.YandexMusicClient
 import com.kiko.yandexmusicapi.constants.YandexMusicConstants
-import com.kiko.yandexmusicapi.data.remote.interceptor.TokenInterceptor
-import com.kiko.yandexmusicapi.data.remote.interceptor.YandexUrlInterceptor
+import com.kiko.yandexmusicapi.data.common.remote.interceptor.TokenInterceptor
+import com.kiko.yandexmusicapi.data.common.remote.interceptor.YandexUrlInterceptor
 import com.squareup.moshi.Moshi
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit

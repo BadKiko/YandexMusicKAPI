@@ -1,4 +1,4 @@
-package com.kiko.yandexmusicapi.data.remote
+package com.kiko.yandexmusicapi.data.common.remote
 
 import com.kiko.yandexmusicapi.data.account.remote.dto.StatusEntity
 import com.squareup.moshi.Json
